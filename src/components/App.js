@@ -6,15 +6,14 @@ import MealList from './MealList.js'
 
 
 class App extends React.Component {
-    state = {term: null}
+    state = {first_ing: null, second_ing: null, name: null}
 
-    onSearchSubmit(term) {
-      fetch(`https://api.spoonacular.com/food/wine/dishes?wine=${term}&apiKey=f32abb28d1db45fca7f1c14f5a2c0281`, {
+    onSearchSubmit = (first_ing, second_ing) => {
+      fetch(`https://api.spoonacular.com/recipes/findByIngredients?ingredients=${first_ing},+${second_ing}&number=2&apiKey=f32abb28d1db45fca7f1c14f5a2c0281`, {
         "method": "GET"
       })
-      .then(response => {
-        console.log(response);
-      })
+      .then(response => response.json())
+      .then(data => this.setState({name: data[0].title}))
       .catch(err => {
         console.log(err);
       });
@@ -28,7 +27,7 @@ class App extends React.Component {
     return (
       <div>
       <SearchBar onSubmit={this.onSearchSubmit}/>
-      <SearchedWine name="Gevrey Chambertin" millesime="2018"  />
+      <SearchedWine name={this.state.name} millesime="2018"  />
       <MealList />
       </div>
       )
