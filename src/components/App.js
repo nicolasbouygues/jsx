@@ -1,5 +1,4 @@
 import React from 'react';
-import axios from 'axios';
 import SearchBar from './SearchBar.js'
 import SearchedWine from './SearchedWine.js'
 import MealList from './MealList.js'
@@ -10,11 +9,15 @@ class App extends React.Component {
     state = {term: null}
 
     onSearchSubmit(term) {
-        axios.get(`https://cors-anywhere.herokuapp.com/https://www.1jour1vin.com/fr/guide-achat-vin/${term}`) , {
-            headers: {
-                Authorization: Token {d9a3bd17e9fb91bbd093779201242f8afeb3b998}
-            }
-        }
+      fetch(`https://api.spoonacular.com/food/wine/dishes?wine=${term}&apiKey=f32abb28d1db45fca7f1c14f5a2c0281`, {
+        "method": "GET"
+      })
+      .then(response => {
+        console.log(response);
+      })
+      .catch(err => {
+        console.log(err);
+      });
     }
  
     wine() {
