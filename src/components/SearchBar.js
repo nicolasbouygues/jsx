@@ -9,8 +9,6 @@ class SearchBar extends React.Component {
     
     onFormSubmit = (event) => {
         event.preventDefault()
-        console.log(this.state.second_ing)
-        console.log(this.state.first_ing)
         this.props.onSubmit(this.state.first_ing, this.state.second_ing)
     }
 
