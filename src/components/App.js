@@ -6,7 +6,7 @@ import MealList from './MealList.js'
 
 
 class App extends React.Component {
-    state = {first_ing: null, second_ing: null, recipes: []}
+    state = {first_ing: null, second_ing: null, recipes: [], recipe_id: null, recipe: []}
 
     onSearchSubmit = (first_ing, second_ing) => {
       fetch(`https://api.spoonacular.com/recipes/findByIngredients?ingredients=${first_ing},+${second_ing}&number=10&apiKey=f32abb28d1db45fca7f1c14f5a2c0281`, {
@@ -18,8 +18,17 @@ class App extends React.Component {
         console.log(err);
       });
     }
-    wine() {
 
+
+    onClickRecipe = (recipe_id) => {
+      fetch(`https://api.spoonacular.com/recipes/informationBulk?ids=${recipe_id}&apiKey=f32abb28d1db45fca7f1c14f5a2c0281`, {
+        "method": "GET"
+      })
+      .then(response => response.json())
+      .then(data => this.setState({recipe: data}))
+      .catch(err => {
+        console.log(err);
+      });
     }
 
   render() {
@@ -27,7 +36,7 @@ class App extends React.Component {
       <div>
       <SearchBar onSubmit={this.onSearchSubmit}/>
       <SearchedWine />
-      <MealList images={this.state.recipes} />
+      <MealList images={this.state.recipes} onClick={this.onClickRecipe} />
       </div>
       )
   }

@@ -1,19 +1,36 @@
 import '../style/MealList.css'
 import React from 'react';
 
-const MealList = props => {
-    const images = props.images.map((image) => {
-        return <img key={image.id} src={image.image} alt=""/>
-    });
-    const text = props.images.map((title) => {
-        return <p key={title.id}>{title.title}</p>
-    });
-    return (
-        <div>{images} {text}</div>
-    )
+class MealList extends React.Component {
+    state = {recipe_id: null };
+
+    onRecipeClick = (event, key) => {
+        console.log(key)
+        this.setState({recipe_id: 10})
+        this.props.onClick(this.state.recipe_id)
+    }
+
+    render() {
+        return(
+                this.props.images.map((image) => {
+                    return (
+                        <div className="card-product">
+                            <img key={image.id} src={image.image} alt="" onClick={this.onRecipeClick(image.id)}/>
+                            <div className="card-product-infos">
+                                <h2 key={image.id}>{image.title}</h2>
+                                <p>Product description with <strong>relevant info</strong> only.</p>
+                            </div>
+                        </div>
+                    )})
+                )
+}
 }
 
 export default MealList 
+
+
+
+
 
 
 
